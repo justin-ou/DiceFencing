@@ -8,6 +8,9 @@ public class Player : MonoBehaviour {
     private GameManager _gameManager;   
     private EventManager _eventManager;
 
+	// Each player maintain own selected cards and card options
+	private CardBase[] _selectedCardList;
+
 	// Id 1 face right, Id 2 face left
 	private int _id;
 	private int _health;
