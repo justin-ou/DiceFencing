@@ -4,38 +4,36 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
   
-	//private 
-    private GameManager _gameManager;   
-    private EventManager _eventManager;
+	public bool canCounter { get; private set; }
+	public int currentPosition { get; private set; }
+	public int id { get; private set; }
 
 	// Each player maintain own selected cards and card options
 	private CardBase[] _selectedCardList;
 
-	// Id 1 face right, Id 2 face left
-	private int _id;
+	// Managers
+	private MapManager _mapManager;
+
+	// Player properties
 	private int _health;
-	private int _currentPosition;
+	private int _attackRange;
 
-    public Player(){
-
-    }
-
-	// Use this for initialization
-	void Start () {
+	void Start(){
 
 	}
-
-    public void Init(int id) {
-		_id = id;
+	public void Init(int playerId){
+		id = playerId;
 		_health = Constants.MAX_HEALTH;
-    }
-	public void MoveToPosition(int newPosition){
-		_currentPosition = newPosition;
+		_attackRange = Constants.ATTACK_RANGE;
+		_mapManager = MapManager.Instance;
+		currentPosition = _mapManager.GetStartPosition(id);
+    }  
+	public void Reset(){
+		canCounter = false;
 	}
 	// Try to move to the new position
-	// See if players are trying to move past one another 
-	public int MoveNewPosition(int moveAmount){
-		int newPosition = _currentPosition + moveAmount;
+	public void Move(int moveAmount){
+		int newPosition = currentPosition + moveAmount;
 
 		// Check limits
 		if(newPosition < 0){
@@ -43,7 +41,7 @@ public class Player : MonoBehaviour {
 		}else if(newPosition > Config.MAP_LENGTH-1){
 			newPosition = Config.MAP_LENGTH-1;
 		}
-		return newPosition;
+		currentPosition = newPosition;
 	}
 	public void ModifyHealth(int health){
 		int tempHealth = _health + health;
@@ -56,8 +54,10 @@ public class Player : MonoBehaviour {
 		}
 		_health = tempHealth;
 	}
-
-	public int GetCurrentPosition(){
-		return _currentPosition;
+	public bool IsInAttackRange(int enemyPosition){
+		return enemyPosition <= (currentPosition+_attackRange) && enemyPosition >= (currentPosition-_attackRange);
+	}
+	public void SetCounter(bool counter){
+		canCounter = counter;
 	}
 }

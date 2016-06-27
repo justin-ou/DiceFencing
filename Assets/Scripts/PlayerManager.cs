@@ -1,49 +1,47 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerManager : Singleton<PlayerManager> {
 
 	// Use this class to maintain a list of all players in the game
-	// This class always has the reference to the current player object
-	private Player _myPlayer;
-	private Player _otherPlayer;
-	private MapManager _mapManager;
+	private List<Player> _playerList;
 
-	void Start(){
+	// Instantiate player prefab
+	private GameObject _playerPrefab;
+	private Transform _playerParentTransform;
 
+	void Awake(){
+		_playerList = new List<Player>();
+		_playerParentTransform = GameObject.Find("PlayerList").transform;
+		_playerPrefab = Resources.Load("Prefabs/PlayerObject") as GameObject;
 	}
-
-	public void Init(){
-
-	}
-	public bool CanMovePosition(int position1, int position2){
-		// player 1 position will be lesser than player 2 position since they can't pass one another
-		// players use a linear map where they can only meet on the same tile at max
-		return !(position1 > position2);
-	}
-	public int GetNewPlayerPosition(int moveAmount, bool isMyPlayer){
-		if(isMyPlayer){
-			return _myPlayer.MoveNewPosition(moveAmount);
+	// Add a new player when he joins the game
+	public Player AddPlayer(){
+		if(_playerList.Count < Constants.MAX_PLAYERS){
+			Player newPlayer = Utilities.InstantiateParent(_playerPrefab, _playerParentTransform).GetComponent<Player>();
+			newPlayer.Init(_playerList.Count);
+			// Add to list of current players
+			_playerList.Add(newPlayer);
+			// Update UI of player in the list
+			return newPlayer;
 		}
-		return _otherPlayer.MoveNewPosition(moveAmount);
+		return null;
 	}
-	public int GetPlayerPosition(int moveAmount, bool isMyPlayer){
-		if(isMyPlayer){
-			return _myPlayer.GetCurrentPosition();
+	// Get the player class to do something
+	public Player GetPlayer(int id){
+		if(Utilities.IsInArrayRange(id, _playerList.Count)){
+			return _playerList[id];
 		}
-		return _otherPlayer.GetCurrentPosition();
+		return null;
 	}
-	// Attack player 
-	public void AttackPlayer(int damage){
-		if(_otherPlayer != null){
-			_otherPlayer.ModifyHealth(-damage);
-		}
-	}
-	// Heal player 
-	public void HealPlayer(int healAmount){
-		if(_myPlayer != null){
-			_myPlayer.ModifyHealth(healAmount);
+	// Attack other players
+	public void AttackPlayer(int attackerId, int attackValue){
+		Player attacker = GetPlayer(attackerId);
+		foreach(Player player in _playerList){
+			if(player != attacker && attacker.IsInAttackRange(player.currentPosition)){
+				player.ModifyHealth(attackValue);
+			}
 		}
 	}
-
 }

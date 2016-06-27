@@ -9,15 +9,21 @@ public class CardBase : MonoBehaviour {
 	// Move: Move x-position
 	// Heal: Recover health
 
-	public void Attack(int damage){
-		// Attack area in front of the player
-		// Send to ConflictManager that accepts Card command from all players
-		// ConflictManager receives a Card command and their player Id
-		// Resolves highest damage number first
-		// Deals damage if a player is within range
-		// After all players has been processed, move to next command
+	protected PlayerManager _playerManager;
+	protected int _playerId;
+	protected int _value;
+	protected CardType _cardType;
 
+	public virtual void Init(int playerId, int value){
+		Init(playerId);
+		_value = value;
 	}
+	public virtual void Init(int playerId){
+		_playerId = playerId;
+		_playerManager = PlayerManager.Instance;
+	}
+	// Execute action after CardManager sorts card priority
+	// Uses PlayerManager to check against other players
 	public virtual void Execute(){
 		// Perform this card action
 	}

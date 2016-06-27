@@ -3,12 +3,16 @@ using System.Collections;
 
 public class CounterCard : CardBase {
 
-	private int _damage;
-
-	public CounterCard(int damage) : base(){
-		_damage = damage;
+	public override void Init(int playerId){
+		base.Init(playerId);
+		_cardType = CardType.COUNTER;
 	}
 	public override void Execute(){
-		// Reduce opponent player health by _damage amount if correct card type
+		// Set Player's counter flag to true
+		// Reflect's damage if damage is taken this turn
+		// Resets Player's counter flag
+		if(_playerManager.GetPlayer(_playerId) != null){
+			_playerManager.GetPlayer(_playerId).SetCounter(true);
+		}
 	}
 }

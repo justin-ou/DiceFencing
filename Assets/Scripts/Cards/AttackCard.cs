@@ -3,12 +3,14 @@ using System.Collections;
 
 public class AttackCard : CardBase {
 
-	private int _damage;
-
-	public AttackCard(int damage) : base(){
-		_damage = damage;
+	public override void Init(int playerId, int value){
+		base.Init(playerId, value);
+		_cardType = CardType.NORMAL_ATTACK;
 	}
  	public override void Execute(){
-		// Reduce opponent player health by _damage amount
+		// Uses PlayerManager to attack area infront of current player
+		// Attacks all players if possible
+		// Deal damage according to value
+		_playerManager.AttackPlayer(_playerId, _value);
 	}
 }
