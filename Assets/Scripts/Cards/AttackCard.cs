@@ -3,8 +3,16 @@ using System.Collections;
 
 public class AttackCard : CardBase {
 
-	public override void Init(int playerId, int value){
-		base.Init(playerId, value);
+	private const int MIN_ATTACK = 1;
+	private const int MAX_ATTACK = 7;
+
+	public AttackCard(int playerId, int value) : base(playerId, value){
+		_priority = (int) CardType.NORMAL_ATTACK;
+		_cardType = CardType.NORMAL_ATTACK;
+	}
+	public AttackCard(int playerId) : base(playerId){
+		_value = Random.Range(MIN_ATTACK, MAX_ATTACK);
+		_priority = (int) CardType.NORMAL_ATTACK;
 		_cardType = CardType.NORMAL_ATTACK;
 	}
  	public override void Execute(){

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class CardBase : MonoBehaviour {
+public class CardBase : IComparable<CardBase>{
 
 	// Types of Card:
 	// Attack: Deal damage to player if in range
@@ -13,12 +14,12 @@ public class CardBase : MonoBehaviour {
 	protected int _playerId;
 	protected int _value;
 	protected CardType _cardType;
+	protected int _priority; // Each card has its own priority to be used for sorting
 
-	public virtual void Init(int playerId, int value){
-		Init(playerId);
+	public CardBase(int playerId, int value) : this(playerId){
 		_value = value;
 	}
-	public virtual void Init(int playerId){
+	public CardBase(int playerId){
 		_playerId = playerId;
 		_playerManager = PlayerManager.Instance;
 	}
@@ -32,5 +33,8 @@ public class CardBase : MonoBehaviour {
 	}
 	public virtual void DeSerialize(){
 
+	}
+	public int CompareTo(CardBase other){
+		return _priority.CompareTo(other._priority);
 	}
 }

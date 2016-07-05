@@ -25,4 +25,8 @@ public class Utilities : MonoBehaviour {
 	public static bool IsInArrayRange(int value, int arrayLength){
 		return (value >= 0) && (value < arrayLength);
 	}
+	// Check for Random percentage
+	public static bool IsLessThanPercentage(int value){
+		return (Random.Range(0, 100) < value);
+	}
 }

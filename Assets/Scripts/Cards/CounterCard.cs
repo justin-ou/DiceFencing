@@ -3,8 +3,8 @@ using System.Collections;
 
 public class CounterCard : CardBase {
 
-	public override void Init(int playerId){
-		base.Init(playerId);
+	public CounterCard(int playerId) : base(playerId){
+		_priority = (int) CardType.COUNTER;
 		_cardType = CardType.COUNTER;
 	}
 	public override void Execute(){

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class MoveCard : CardBase {
 
-	public override void Init(int playerId, int value){
-		base.Init(playerId, value);
+	public MoveCard(int playerId, int value) : base(playerId, value){
+		_priority = (int) CardType.MOVE;
 		_cardType = CardType.MOVE;
 	}
 	public override void Execute(){

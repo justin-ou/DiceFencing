@@ -35,12 +35,20 @@ public class PlayerManager : Singleton<PlayerManager> {
 		}
 		return null;
 	}
+	public int GetPlayerLength(){
+		return _playerList.Count;
+	}
 	// Attack other players
 	public void AttackPlayer(int attackerId, int attackValue){
 		Player attacker = GetPlayer(attackerId);
 		foreach(Player player in _playerList){
 			if(player != attacker && attacker.IsInAttackRange(player.currentPosition)){
-				player.ModifyHealth(attackValue);
+				if(player.canCounter){
+					// Counter attack
+					attacker.ModifyHealth(attackValue);
+				}else{
+					player.ModifyHealth(attackValue);
+				}
 			}
 		}
 	}

@@ -1,7 +1,8 @@
 ﻿public enum CardType {
-    NORMAL_ATTACK, // attack damage opposing player
-	COUNTER, // counter attack damage opposing player
-	MOVE, // move amount for player 1/2
-	HEAL, // heal amount
+	MOVE = 0, // move amount for player 1/2
+	HEAL = 1, // heal amount
+	COUNTER = 2, // counter attack damage opposing player
+	NORMAL_ATTACK = 3, // attack damage opposing player
+	NO_ACTION = 4,
 	SIZE
 }

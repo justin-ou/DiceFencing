@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardGenerator : MonoBehaviour {
+public class CardGenerator {
 
-	// Use this for initialization
-	void Start () {
-	
+	public CardGenerator() {
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+
 }
